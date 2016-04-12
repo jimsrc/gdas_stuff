@@ -1,0 +1,11 @@
+# data && logs
+*.h5
+*.dat
+*.log
+
+# gdas files
+*.pgb.*
+
+# exe
+*.pyc
+*.[ox]
