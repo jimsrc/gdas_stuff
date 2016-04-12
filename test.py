@@ -6,7 +6,7 @@ selects:
     - a square geographic region defined by:
         - center: 'Mlg_lon' and 'Mlg_lat'
         - widths: in longitude 'dlon', and in latitude 'dlat'
-    - certain variables (using 'sname') of interest
+    - certain variables (see 'VARS') of interest
     - specific isobaric surfaces (see 'LEVELS')
     - time window (see 'year_ini' and 'year_end') of interest
 
@@ -43,6 +43,10 @@ time_ini = datetime(year_ini, 1, 1)
 # isobaric surfaces for data selection
 LEVELS = (50, 100, 200, 300, 700, 850) #100 #700 # [mbar] 
 
+# list of variables of interest
+# 'gh': geopotential height
+VARS = ('gh',)
+
 # directory paths
 #dir_fig = './figs/lev_%04d' % LEVEL
 dir_inp_root = '/media/Elements/data_gdas' # GDAS re-analysis data
@@ -76,7 +80,9 @@ for year in range(year_ini, year_end+1):
             level = gg['level']
             time = datetime(yyyy, mm, dd, HH, MM)
             rtime = (time - time_ini).total_seconds()/86400./365. # [years] relative time
-            if sname=='gh' and (level in LEVELS):
+
+            # select only variables and isobaric levels of interest
+            if (sname in VARS) and (level in LEVELS):
                 if level==LEVELS[0]:
                     print " --> date: ", year, month, "; t: %4.4f" % rtime
 
