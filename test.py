@@ -1,5 +1,24 @@
-#!/usr/bin/env python
+#!/usr/bin/env ipython
 # -*- coding: utf-8 -*-
+"""
+this script reads GDAS re-analysis files *.pgb.f00, and
+selects:
+    - a square geographic region defined by:
+        - center: 'Mlg_lon' and 'Mlg_lat'
+        - widths: in longitude 'dlon', and in latitude 'dlat'
+    - certain variables (using 'sname') of interest
+    - specific isobaric surfaces (see 'LEVELS')
+    - time window (see 'year_ini' and 'year_end') of interest
+
+NOTES: 
+    - all variables are mentioned in ''
+    - 'dir_inp_root' is the directory of the downloaded GDAS 
+      re-analysis data
+    - output file will go to directory 'dir_out'
+
+author  : jimmy masias
+email   : jimmy.ilws@gmail.com
+"""
 from pylab import *
 import numpy as np
 import pygrib
@@ -7,22 +26,29 @@ from datetime import datetime, timedelta
 from glob import glob
 from h5py import File as h5
 
+# geographic longitude & latitude of the center
+# of place-of-interest
 Mlg_lon = 360. - 69.3
 Mlg_lat = -35.3
+
+# window widths (in latitude and longitude) for 
+# data selection
 dlon, dlat = 5.1, 5.1
+
+# time window of interest
 year_ini, year_end = 2006, 2013 #2006 #2013
+
 time_ini = datetime(year_ini, 1, 1)
-LEVELS = (50, 100, 200, 300, 700, 850) #100 #700 # [mbar] isobaric surfaces
+
+# isobaric surfaces for data selection
+LEVELS = (50, 100, 200, 300, 700, 850) #100 #700 # [mbar] 
+
+# directory paths
 #dir_fig = './figs/lev_%04d' % LEVEL
-#dir_inp = '../%04d' % year
-dir_inp_root = '/media/Elements/data_gdas'
-fname_out = './test.h5'
+dir_inp_root = '/media/Elements/data_gdas' # GDAS re-analysis data
+dir_out      = '.' # output directory
+
 h, t = {}, {}
-"""
-for level in LEVELS:
-    name = 'level_%04d' % level
-    t[name], h[name] = {}, {}
-"""
 
 for year in range(year_ini, year_end+1):
     dir_inp = '%s/%04d' % (dir_inp_root, year)
@@ -64,7 +90,8 @@ for year in range(year_ini, year_end+1):
 
             gg = g.readline() # read next line
 
-    fname_out = './test_%04d.h5' % yyyy
+    # generate file 
+    fname_out = '{odir}/test_{year:04d}.h5' .format(odir=dir_out, year=yyyy)
     print " -----> guardando: " + fname_out
     f5 = h5(fname_out, 'w')
     for level in LEVELS:
