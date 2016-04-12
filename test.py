@@ -1,7 +1,7 @@
 #!/usr/bin/env ipython
 # -*- coding: utf-8 -*-
 """
-this script reads GDAS re-analysis files *.pgb.f00, and
+this script reads NCEP re-analysis files *.pgb.f00, and
 selects:
     - a square geographic region defined by:
         - center: 'Mlg_lon' and 'Mlg_lat'
@@ -12,7 +12,7 @@ selects:
 
 NOTES: 
     - all variables are mentioned in ''
-    - 'dir_inp_root' is the directory of the downloaded GDAS 
+    - 'dir_inp_root' is the directory of the downloaded NCEP
       re-analysis data
     - output file will go to directory 'dir_out'
 
@@ -49,7 +49,7 @@ VARS = ('gh',)
 
 # directory paths
 #dir_fig = './figs/lev_%04d' % LEVEL
-dir_inp_root = '/media/Elements/data_gdas' # GDAS re-analysis data
+dir_inp_root = '/media/Elements/data_gdas' # NCEP re-analysis data
 dir_out      = '.' # output directory
 
 h, t = {}, {}

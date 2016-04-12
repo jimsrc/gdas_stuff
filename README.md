@@ -1,4 +1,4 @@
-# GDAS re-analysis data handling
+# NCEP re-analysis data handling
 
 Data files *.pgb.f00 can be downloaded from:
 
